@@ -107,7 +107,13 @@ final class FibonacciTests: XCTestCase {
 
     #if os(Linux)
     static var allTests = [
-        ("testExample", testExample),
+        ("test_throwInvalidInput", test_throwInvalidInput),
+        ("test_getFibOutput_1", test_getFibOutput_1),
+        ("test_getFibOutput_2", test_getFibOutput_2),
+        ("test_getFibOutput_3", test_getFibOutput_3),
+        ("test_saveResultToInvalidFile", test_saveResultToInvalidFile),
+        ("test_saveFakeResultToFile", test_saveFakeResultToFile),
+        ("test_saveVerifiedResultToFile", test_saveVerifiedResultToFile),
     ]
     #endif
 }

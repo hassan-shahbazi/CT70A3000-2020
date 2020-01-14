@@ -7,7 +7,7 @@ protocol Fibonacci {
 }
 extension Fibonacci {
     init() {
-        self.init(start: 10)
+        self.init(start: 15)
     }
 
     func save(_ result: [String]) throws {
