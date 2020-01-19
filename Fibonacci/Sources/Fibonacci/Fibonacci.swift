@@ -1,13 +1,13 @@
 import Foundation
 
 protocol Fibonacci {
-    init(start: Int)
-    func count() throws -> [String]
+    init(length: Int)
+    func count(from start: Int) throws -> [String]
     func save(_ result: [String], to file: String) throws
 }
 extension Fibonacci {
     init() {
-        self.init(start: 15)
+        self.init(length: 10)
     }
 
     func save(_ result: [String]) throws {
@@ -17,15 +17,21 @@ extension Fibonacci {
 
 struct FibonacciImpl: Fibonacci {
     private var result: [String] = []
-    private let start: Int
+    private let length: Int
 
-    init(start: Int) {
-        self.start = start
+    init(length: Int) {
+        self.length = length
     }
 
-    func count() throws -> [String] {
-        guard self.start >= 0 else { throw FibExceptions.notValidStartingPoint }
-        return [Int](0..<self.start).map { String(calculateFibSeries(for: Int64($0))) }
+    func count(from start: Int) throws -> [String] {
+        guard self.length >= 0 else { throw FibExceptions.notValidLength }
+        guard start >= 0 else { throw FibExceptions.notValidStartingPoint }
+
+        return [Int](0..<start+self.length)
+                            .map { 
+                                String(calculateFibSeries(for: Int64($0))) 
+                            }
+                            .suffix(self.length)
     }
 
     func save(_ result: [String], to file: String) throws {

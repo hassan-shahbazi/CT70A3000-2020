@@ -5,11 +5,26 @@ final class FibonacciTests: XCTestCase {
     
     private var fib: Fibonacci!
 
-    func test_throwInvalidInput() {
-        fib = FibonacciImpl(start: -1)
+    func test_throwInvalidInput_Lenght() {
+        fib = FibonacciImpl(length: -1)
 
         do {
-            _ = try fib.count()
+            _ = try fib.count(from: 0)
+
+            /// We except to get the error in `catch` closure
+            /// So the following line is not allowed to be executed.
+            XCTAssertTrue(false, "The test should catch the error")
+        } catch {
+            XCTAssertNotNil(error as? FibExceptions)
+            XCTAssertEqual(error as! FibExceptions, FibExceptions.notValidLength)
+        }
+    }
+
+    func test_throwInvalidInput_Start() {
+        fib = FibonacciImpl(length: 3)
+
+        do {
+            _ = try fib.count(from: -1)
 
             /// We except to get the error in `catch` closure
             /// So the following line is not allowed to be executed.
@@ -20,10 +35,10 @@ final class FibonacciTests: XCTestCase {
         }
     }
 
-    func test_getFibOutput_1() {
-        fib = FibonacciImpl(start: 3)
+    func test_getFibOutput_Length() {
+        fib = FibonacciImpl(length: 3)
         do {
-            let result = try fib.count()
+            let result = try fib.count(from: 0)
             
             XCTAssertNotNil(result, "The result cannot be nil")
             XCTAssertEqual(result.count, 3, "The result count should be equal to the input")
@@ -34,11 +49,11 @@ final class FibonacciTests: XCTestCase {
         }
     }
 
-    func test_getFibOutput_2() {
+    func test_getFibOutput_DefaultLength() {
         /// Use default initializer: 10
         fib = FibonacciImpl()
         do {
-            let result = try fib.count()
+            let result = try fib.count(from: 0)
             
             XCTAssertNotNil(result, "The result cannot be nil")
             XCTAssertEqual(result.count, 10, "The result count should be equal to the input")
@@ -49,13 +64,13 @@ final class FibonacciTests: XCTestCase {
         }
     }
 
-    func test_getFibOutput_3() {
-        fib = FibonacciImpl(start: 30)
+    func test_getFibOutput_LengthStart() {
+        fib = FibonacciImpl(length: 20)
         do {
-            let result = try fib.count()
+            let result = try fib.count(from: 10)
             
             XCTAssertNotNil(result, "The result cannot be nil")
-            XCTAssertEqual(result.count, 30, "The result count should be equal to the input")
+            XCTAssertEqual(result.count, 20, "The result count should be equal to the input")
             XCTAssertEqual(result.last, "514229", "The test result should be valid")
         } catch {
             /// We do not except to get any error here
@@ -88,9 +103,9 @@ final class FibonacciTests: XCTestCase {
     }
 
     func test_saveVerifiedResultToFile() {
-        fib = FibonacciImpl(start: 10)
+        fib = FibonacciImpl(length: 30)
         do {
-            let result = try fib.count()
+            let result = try fib.count(from: 3)
             try fib.save(result, to: "/result.txt")
 
             let file = "file://" + FileManager.default.currentDirectoryPath.appending("/result.txt")
