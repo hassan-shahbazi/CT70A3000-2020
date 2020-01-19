@@ -10,6 +10,10 @@ extension Fibonacci {
         self.init(length: 10)
     }
 
+    func count() throws -> [String] {
+        return try self.count(from: 0)
+    }
+
     func save(_ result: [String]) throws {
         try self.save(result, to: "/result.txt")
     }

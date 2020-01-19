@@ -49,11 +49,12 @@ final class FibonacciTests: XCTestCase {
         }
     }
 
-    func test_getFibOutput_DefaultLength() {
+    func test_getFibOutput_DefaultParameters() {
         /// Use default initializer: 10
         fib = FibonacciImpl()
         do {
-            let result = try fib.count(from: 0)
+            /// Use default paramtere: 0
+            let result = try fib.count()
             
             XCTAssertNotNil(result, "The result cannot be nil")
             XCTAssertEqual(result.count, 10, "The result count should be equal to the input")
